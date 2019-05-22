@@ -1,0 +1,38 @@
+$(function () {
+    $(document).ready(function () {
+        $("#color").css("background-color", "#5DBCD2");
+        $("#color").css("width", "80px");
+        $("#color").css("height", "80px");
+        $("#color").css("text-align", "center");
+        $("#color").css("vertical-align", "middle");
+        $("#color").css("margin-right", "20px");
+
+        $('#feedback').hover(function () {
+            $(this).stop().animate({ 'left': -20 }, 'slow');
+        }, function () {
+            $(this).stop().animate({ 'left': -360 }, 'slow');
+        });
+
+        setTimeout(function () { $('#feedback').animate({ 'left': -360 }, 'slow'); }, 2000);
+
+      
+    });
+
+    $("#image").click(function (e) {
+        $.ajax({
+            url: urlName, type: "POST", dataType: "json",
+            data: { "x": (e.pageX - $("#image").offset().left).toFixed(0), "y": (e.pageY - $("#image").offset().top).toFixed(0), "imageSizeX": $("#image").width(), "imageSizeY": $("#image").height() },
+            success: function (data) {
+                $("#color").css("background-color", data.HtmlCode);
+                $("#color").css("width", "80px");
+                $("#color").css("height", "80px");
+                $("#color").css("text-align", "center");
+                $("#color").css("vertical-align", "middle");
+                $("#color").css("margin-right", "20px");
+                $("#htmlCode").text(data.HtmlCode);
+                $("#rgb").text(data.Rgb);
+                $("#hsv").text(data.Hsv);
+            }
+        });
+    });
+});
